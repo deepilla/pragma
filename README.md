@@ -1,6 +1,7 @@
 # pragma
 
 [![GoDoc](https://godoc.org/github.com/deepilla/pragma?status.svg)](https://godoc.org/github.com/deepilla/pragma)
+[![Build Status](https://travis-ci.org/deepilla/pragma.svg?branch=master)](https://travis-ci.org/deepilla/pragma)
 [![Go Report Card](https://goreportcard.com/badge/github.com/deepilla/pragma)](https://goreportcard.com/report/github.com/deepilla/pragma)
 
 Pragma is a Go library that provides access to SQLite's [PRAGMA operations](https://sqlite.org/pragma.html). Pragmas are special SQLite commands that allow clients to interact with database properties and metadata, as well as perform basic administrative tasks.

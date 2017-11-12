@@ -1,9 +1,9 @@
 language: go
 
-gobuild_args: -v -pragma.memory=true
-
 services:
   - sqlite3
+
+script: go test -v -pragma.memory=true
 
 go:
   - tip

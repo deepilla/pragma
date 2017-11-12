@@ -3,6 +3,8 @@
 [![GoDoc](https://godoc.org/github.com/deepilla/pragma?status.svg)](https://godoc.org/github.com/deepilla/pragma)
 [![Go Report Card](https://goreportcard.com/badge/github.com/deepilla/pragma)](https://goreportcard.com/report/github.com/deepilla/pragma)
 
+Pragma is a Go library that provides access to SQLite's [PRAGMA operations](https://sqlite.org/pragma.html). Pragmas are special SQLite commands that allow clients to interact with database properties and metadata, as well as perform basic administrative tasks.
+
 ## Installation
 
     go get github.com/deepilla/pragma
@@ -39,10 +41,16 @@ for _, idx := range indexes {
 
 ## TODO
 
-- Some pragmas return values when they are updated. We should probably return those values.
-- Test with more database drivers. So far only the [go-sqlite3 driver](https://github.com/mattn/go-sqlite3) seems to work. Other drivers cause failing tests and even panics (e.g, [gosqlite](https://github.com/gwenn/gosqlite), [sqlite](https://github.com/rsc/sqlite)).
+- Property functions should use code generation.
+- Handle pragmas that return values when they are updated.
+- Support more database drivers. So far only the [go-sqlite3 driver](https://github.com/mattn/go-sqlite3) seems to work. Other drivers cause failing tests and even panics (e.g, [gosqlite](https://github.com/gwenn/gosqlite), [sqlite](https://github.com/rsc/sqlite)).
 - Investigate (and fix) tests that don't work as expected (see TODO comments in [pragma_test.go](pragma_test.go)).
 - Flesh out property tests. Verifying that a database setting has been updated is fine, but we should also confirm that the database behaves as expected with the new setting.
+
+## Further Reading
+
+1. [pragma on GoDoc](https://godoc.org/github.com/deepilla/pragma)
+2. [SQLite pragma docs](https://sqlite.org/pragma.html)
 
 ## Licensing
 

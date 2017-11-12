@@ -1072,7 +1072,7 @@ func testListIndexes(t *testing.T, db *sql.DB) {
 					Type:  pragma.IndexTypeDefault,
 					ColumnNames: []sql.NullString{
 						nullString("w"),
-						sql.NullString{},
+						{},
 						nullString("z"),
 					},
 				},
@@ -1143,7 +1143,7 @@ func testListIndexColumns(t *testing.T, db *sql.DB) {
 			},
 			Columns: map[string][]pragma.IndexColumn{
 				"xxxxxx": nil,
-				"idx1": []pragma.IndexColumn{
+				"idx1": {
 					{
 						Name:      nullString("v"),
 						Rank:      0,
@@ -1152,7 +1152,7 @@ func testListIndexColumns(t *testing.T, db *sql.DB) {
 						IsKey:     true,
 					},
 				},
-				"idx2": []pragma.IndexColumn{
+				"idx2": {
 					{
 						Name:      nullString("w"),
 						Rank:      0,
@@ -1168,7 +1168,7 @@ func testListIndexColumns(t *testing.T, db *sql.DB) {
 						IsKey:     true,
 					},
 				},
-				"idx3": []pragma.IndexColumn{
+				"idx3": {
 					{
 						Rank:      0,
 						TableRank: pragma.TableRankExpression,
@@ -1240,7 +1240,7 @@ func testListIndexColumnsAux(t *testing.T, db *sql.DB) {
 			},
 			Columns: map[string][]pragma.IndexColumn{
 				"xxxxxx": nil,
-				"idx1": []pragma.IndexColumn{
+				"idx1": {
 					{
 						Name:       nullString("v"),
 						Rank:       0,
@@ -1255,7 +1255,7 @@ func testListIndexColumnsAux(t *testing.T, db *sql.DB) {
 						Collation: "BINARY",
 					},
 				},
-				"idx2": []pragma.IndexColumn{
+				"idx2": {
 					{
 						Name:       nullString("w"),
 						Rank:       0,
@@ -1277,7 +1277,7 @@ func testListIndexColumnsAux(t *testing.T, db *sql.DB) {
 						Collation: "BINARY",
 					},
 				},
-				"idx3": []pragma.IndexColumn{
+				"idx3": {
 					{
 						Rank:      0,
 						TableRank: pragma.TableRankExpression,
@@ -1807,7 +1807,7 @@ func testRunWALCheckpoint(t *testing.T, db *sql.DB) {
 
 	// Re-run the checkpoint in TRUNCATE mode. This should clear
 	// the WAL.
-	total, checked, err = pragma.RunWALCheckpoint(db, pragma.WALCheckpointTruncate)
+	total, _, err = pragma.RunWALCheckpoint(db, pragma.WALCheckpointTruncate)
 	if err != nil {
 		t.Fatalf("RunWalCheckpoint(TRUNCATE) returned error %s", err)
 	}

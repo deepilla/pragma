@@ -1351,7 +1351,7 @@ const (
 	// or deleted.
 	ForeignKeyActionSetDefault
 
-	// ForeignKeyActionCascade propogates parent key changes to
+	// ForeignKeyActionCascade propagates parent key changes to
 	// the child rows. If a parent key is deleted, the child rows
 	// are also deleted. If a parent key value is updated, the
 	// child key value is similarly updated.
@@ -1911,17 +1911,41 @@ func RunShrinkMemory(db *sql.DB) error {
 	return nil
 }
 
+// WALCheckpointMode determines how a WAL checkpoint interacts with
+// other processes that are accessing the database.
 type WALCheckpointMode uint
 
 const (
+	// WALCheckpointPassive proceeds without waiting for database
+	// readers and writers to complete.
 	WALCheckpointPassive WALCheckpointMode = iota
+
+	// WALCheckpointFull blocks until all database writers have
+	// completed and blocks writers while the checkpoint is in
+	// progress.
 	WALCheckpointFull
+
+	// WALCheckpointRestart is like WALCheckpointFull but after
+	// the checkpoint is completed, it blocks until all readers
+	// have finished with the write-ahead log. This ensures that
+	// the next database write restarts the log file.
 	WALCheckpointRestart
+
+	// WALCheckpointTruncate is like WALCheckpointRestart but
+	// it truncates the write-ahead log to zero bytes after
+	// the checkpoint is complete.
 	WALCheckpointTruncate
 )
 
 var (
-	ErrWALCheckpointFailed  = errors.New("WAL Checkpoint failed")
+	// ErrWALCheckpointFailed is returned by RunWALCheckpoint
+	// if it fails to find a write-ahead log. This usually means
+	// that the database connection is not in WAL mode.
+	ErrWALCheckpointFailed = errors.New("WAL Checkpoint failed")
+
+	// ErrWALCheckpointBlocked is returned by RunWALCheckpoint
+	// if the checkpoint was blocked by another process accessing
+	// the database.
 	ErrWALCheckpointBlocked = errors.New("WAL Checkpoint blocked")
 )
 
